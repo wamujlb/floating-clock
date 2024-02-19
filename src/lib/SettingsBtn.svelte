@@ -7,6 +7,7 @@
 	const handleShowSetings = () => {
 		settingsWindow = new WebviewWindow('settings', {
 			url: '/settings',
+			title: 'Settings',
 			width: 400,
 			height: 400,
 			resizable: false,
@@ -14,11 +15,11 @@
 			closable: true,
 			minimizable: false,
 			focus: true,
+			alwaysOnTop: true,
 		});
 
 		settingsWindow.onCloseRequested(() => {
 			settingsWindow = null;
-			console.log('settings on close requested');
 		});
 	};
 
@@ -33,7 +34,7 @@
 	};
 </script>
 
-<button on:click={handleTrigger}>
+<button on:click={handleTrigger} class="btn btn-square">
 	<Settings2 color="white" size="24" />
 </button>
 

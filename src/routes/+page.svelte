@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 	import { emit, listen } from '@tauri-apps/api/event';
 	import Clock from '$lib/Clock.svelte';
