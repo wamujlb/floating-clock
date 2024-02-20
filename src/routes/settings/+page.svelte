@@ -6,16 +6,17 @@
 		showSeconds: true,
 		opacity: 1,
 		clockSize: 400,
+		variant: 'Flip',
 	};
 
 	const handleSettingsChange = async (newSettings: App.Settings) => {
 		settings = newSettings;
-		console.log(newSettings);
 		const res = await invoke<App.SettingsChangePayload>('set_settings', {
 			newSettings: JSON.stringify({
 				show_seconds: settings.showSeconds,
 				opacity: settings.opacity,
 				clock_size: settings.clockSize,
+				variant: settings.variant,
 			}),
 		});
 	};
@@ -38,19 +39,26 @@
 	};
 </script>
 
-<main>
-	<label for="showSeconds">
+<main class="flex flex-col gap-4 mt-4 px-6">
+	<h1 class="text-2xl">Settings</h1>
+	<hr class="border-slate-600" />
+	<label class="label cursor-pointer">
+		<span class="label-text">Show seconds</span>
 		<input
 			bind:checked={settings.showSeconds}
 			on:change={handleChange}
 			name="showSeconds"
 			id="showSeconds"
 			type="checkbox"
+			class="toggle toggle-primary"
 		/>
-		Show seconds
 	</label>
 
-	<label for="opacity">
+	<label class="form-control w-full">
+		<div class="label">
+			<span class="label-text">Opacity</span>
+			<span class="label-text-alt">{`${(settings.opacity * 100).toFixed(0)}%`}</span>
+		</div>
 		<input
 			bind:value={settings.opacity}
 			on:input={handleChange}
@@ -60,11 +68,15 @@
 			min="0.1"
 			max="1"
 			step="0.01"
+			class="range"
 		/>
-		Opacity
 	</label>
 
-	<label for="clockSize">
+	<label class="form-control w-full">
+		<div class="label">
+			<span class="label-text">Clock size</span>
+			<span class="label-text-alt">{`${settings.clockSize}px`}</span>
+		</div>
 		<input
 			bind:value={settings.clockSize}
 			on:input={handleChange}
@@ -74,15 +86,13 @@
 			min="200"
 			max="1000"
 			step="10"
+			class="range"
 		/>
-		Clock size
 	</label>
-</main>
 
-<style>
-	main {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-</style>
+	<select class="select select-bordered w-full mt-4" value={settings.variant}>
+		<option disabled selected>Clock style</option>
+		<option value="Flip">Flip clock</option>
+		<option value="Digital">Digital</option>
+	</select>
+</main>

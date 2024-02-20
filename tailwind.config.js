@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {},
 	},
-	plugins: [require('daisyui')],
+	plugins: ['tailwindcss/nesting', require('daisyui')],
 	daisyui: {
 		themes: ['emerald', 'dim'],
 	},

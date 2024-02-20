@@ -8,6 +8,7 @@
 		showSeconds: true,
 		opacity: 1,
 		clockSize: 400,
+		variant: 'Flip',
 	};
 
 	onMount(async () => {
@@ -18,6 +19,7 @@
 					showSeconds: payload.show_seconds,
 					opacity: payload.opacity,
 					clockSize: payload.clock_size,
+					variant: payload.variant,
 				};
 			}
 		);

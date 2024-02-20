@@ -4,40 +4,58 @@
 use serde::{Deserialize, Serialize};
 use tauri::{LogicalSize, Manager};
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
+enum ClockVariant {
+    Flip,
+    Digital,
+}
+
+#[derive(Serialize, Deserialize)]
 struct Settings {
     show_seconds: bool,
     opacity: f32,
     clock_size: u32,
+    variant: ClockVariant,
 }
 
-fn parse_settings(settings: &str) -> Settings {
-    let parsed = serde_json::from_str(settings);
-
-    match parsed {
-        Ok(parsed_settings) => parsed_settings,
-        Err(_) => Settings {
+impl Settings {
+    fn new() -> Self {
+        Settings {
             show_seconds: true,
             opacity: 1.0,
             clock_size: 400,
-        },
+            variant: ClockVariant::Flip,
+        }
+    }
+
+    fn from_json(json: &str) -> Self {
+        let parsed = serde_json::from_str(json);
+
+        match parsed {
+            Ok(parsed_settings) => parsed_settings,
+            Err(_) => Settings::new(),
+        }
+    }
+
+    fn to_json(&self) -> Result<String, serde_json::Error> {
+        serde_json::to_string(self)
     }
 }
 
 #[tauri::command]
 fn set_settings(app: tauri::AppHandle, new_settings: &str) -> String {
-    let parsed = parse_settings(new_settings);
-    let serialized = serde_json::to_string(&parsed);
+    let settings = Settings::from_json(new_settings);
+    let serialized = settings.to_json();
     let windget_window = app.get_window("widget").unwrap();
 
     windget_window
         .set_size(LogicalSize {
-            width: parsed.clock_size,
-            height: parsed.clock_size,
+            width: settings.clock_size,
+            height: settings.clock_size,
         })
         .unwrap();
 
-    app.emit_all("settings-change", &parsed).unwrap();
+    app.emit_all("settings-change", &settings).unwrap();
 
     match serialized {
         Ok(serialized) => serialized.into(),

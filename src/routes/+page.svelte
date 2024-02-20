@@ -28,9 +28,7 @@
 	});
 </script>
 
-<!-- <slot /> -->
-
-<main>
+<main class="relative">
 	<SettingsBtn />
 
 	<Clock />
