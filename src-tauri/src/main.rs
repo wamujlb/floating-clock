@@ -46,9 +46,9 @@ impl Settings {
 fn set_settings(app: tauri::AppHandle, new_settings: &str) -> String {
     let settings = Settings::from_json(new_settings);
     let serialized = settings.to_json();
-    let windget_window = app.get_window("widget").unwrap();
+    let widget_window = app.get_window("widget").unwrap();
 
-    windget_window
+    widget_window
         .set_size(LogicalSize {
             width: settings.clock_size,
             height: settings.clock_size,

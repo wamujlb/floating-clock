@@ -34,18 +34,6 @@
 	};
 </script>
 
-<button on:click={handleTrigger} class="btn btn-square">
-	<Settings2 color="white" size="24" />
+<button on:click={handleTrigger} class="btn btn-square btn-primary absolute right-1 top-1 z-10">
+	<Settings2 size="24" />
 </button>
-
-<style>
-	button {
-		position: absolute;
-		top: 0;
-		right: 0;
-		background-color: blue;
-		color: white;
-		border: none;
-		border-radius: 4px;
-	}
-</style>

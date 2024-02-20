@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { emit, listen } from '@tauri-apps/api/event';
+	import { fade } from 'svelte/transition';
+	import { listen } from '@tauri-apps/api/event';
 	import Clock from '$lib/Clock.svelte';
 	import SettingsBtn from '$lib/SettingsBtn.svelte';
+	import { writable } from 'svelte/store';
 
 	type WindowPosition = {
 		x: number;
@@ -26,10 +28,22 @@
 	onDestroy(() => {
 		windowMoveListener();
 	});
+
+	let isHovered = writable(false);
+
+	$: console.log($isHovered);
 </script>
 
-<main class="relative">
-	<SettingsBtn />
+<main
+	class="relative"
+	on:mouseenter={() => isHovered.set(true)}
+	on:mouseleave={() => isHovered.set(false)}
+>
+	{#if $isHovered}
+		<div transition:fade={{ delay: 100, duration: 300 }}>
+			<SettingsBtn />
+		</div>
+	{/if}
 
 	<Clock />
 </main>
