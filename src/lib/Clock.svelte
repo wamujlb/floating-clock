@@ -2,14 +2,10 @@
 	import { window as tauriWindow } from '@tauri-apps/api';
 	import { listen } from '@tauri-apps/api/event';
 	import { onDestroy, onMount } from 'svelte';
+	import { initSettings } from '$lib/utils';
 
 	let settingsChangeListener: () => void;
-	let settings: App.Settings = {
-		showSeconds: true,
-		opacity: 1,
-		clockSize: 400,
-		variant: 'Flip',
-	};
+	let settings = initSettings;
 
 	onMount(async () => {
 		settingsChangeListener = await listen<App.SettingsChangePayload>(
@@ -48,8 +44,6 @@
 	const formatDigit = (digit: number): string => {
 		return digit < 10 ? `0${digit}` : digit.toString();
 	};
-
-	$: console.log(settings.opacity);
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -57,6 +51,7 @@
 	data-tauri-drag-region
 	on:mousedown={handleContainerMousedown}
 	style:opacity={settings.opacity}
+	class={settings.showSeconds ? 'show-seconds' : ''}
 >
 	<div class="digit-wrapper">
 		<div class="digit">{formatDigit(hours)}</div>
@@ -76,10 +71,14 @@
 <style>
 	container {
 		display: grid;
-		height: 38vw;
-		grid-template-columns: 38vw 38vw 16vw;
-		grid-template-rows: 38vw;
-		column-gap: 4vw;
+		height: 100vh;
+		grid-template-columns: 100vh 100vh;
+		grid-template-rows: 100vh;
+		justify-content: space-between;
+
+		&.show-seconds {
+			grid-template-columns: 100vh 100vh 50vh;
+		}
 	}
 
 	.digit-wrapper {
@@ -106,7 +105,7 @@
 	}
 
 	.second {
-		height: 16vw;
+		height: 50vh;
 		place-self: end;
 	}
 </style>

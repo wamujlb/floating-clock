@@ -42,22 +42,27 @@ impl Settings {
     }
 }
 
+fn get_flip_clock_width(clock_size: f32, show_seconds: bool) -> u32 {
+    let gap = clock_size / 10.0;
+    match show_seconds {
+        true => (clock_size * 2.5 + gap * 2.0).ceil() as u32,
+        false => (clock_size * 2.0 + gap).ceil() as u32,
+    }
+}
+
 fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
     let clock_size = settings.clock_size as f32;
     let show_seconds = settings.show_seconds;
     match settings.variant {
         ClockVariant::Flip => LogicalSize {
-            width: clock_size as u32,
-            height: match show_seconds {
-                true => (clock_size / 2.7).ceil() as u32,
-                false => (clock_size / 2.1).ceil() as u32,
-            },
+            height: clock_size as u32,
+            width: get_flip_clock_width(clock_size, show_seconds),
         },
         ClockVariant::Digital => LogicalSize {
-            width: clock_size as u32,
-            height: match show_seconds {
-                true => (clock_size / 2.8).ceil() as u32,
-                false => (clock_size / 2.3).ceil() as u32,
+            height: clock_size as u32,
+            width: match show_seconds {
+                true => (clock_size * 2.5).ceil() as u32,
+                false => (clock_size * 2.0).ceil() as u32,
             },
         },
     }

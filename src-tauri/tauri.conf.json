@@ -61,7 +61,7 @@
         "label": "widget",
         "title": "Floating clock",
         "hiddenTitle": true,
-        "width": 400,
+        "width": 405,
         "height": 150,
         "fullscreen": false,
         "resizable": false,

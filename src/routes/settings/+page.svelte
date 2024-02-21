@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { invoke } from '@tauri-apps/api/tauri';
 	import type { ChangeEventHandler } from 'svelte/elements';
+	import { initSettings } from '$lib/utils';
 
-	let settings: App.Settings = {
-		showSeconds: true,
-		opacity: 1,
-		clockSize: 400,
-		variant: 'Flip',
-	};
+	let settings = initSettings;
 
 	const handleSettingsChange = async (newSettings: App.Settings) => {
 		settings = newSettings;
@@ -83,8 +79,8 @@
 			name="clockSize"
 			id="clockSize"
 			type="range"
-			min="200"
-			max="1000"
+			min="30"
+			max="500"
 			step="10"
 			class="range"
 		/>
