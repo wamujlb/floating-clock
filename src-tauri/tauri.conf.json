@@ -32,7 +32,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "floating-clock",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -61,8 +61,8 @@
         "label": "widget",
         "title": "Floating clock",
         "hiddenTitle": true,
-        "width": 600,
-        "height": 300,
+        "width": 400,
+        "height": 150,
         "fullscreen": false,
         "resizable": false,
         "center": true,

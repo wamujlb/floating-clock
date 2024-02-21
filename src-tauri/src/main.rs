@@ -42,18 +42,34 @@ impl Settings {
     }
 }
 
+fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
+    let clock_size = settings.clock_size as f32;
+    let show_seconds = settings.show_seconds;
+    match settings.variant {
+        ClockVariant::Flip => LogicalSize {
+            width: clock_size as u32,
+            height: match show_seconds {
+                true => (clock_size / 2.7).ceil() as u32,
+                false => (clock_size / 2.1).ceil() as u32,
+            },
+        },
+        ClockVariant::Digital => LogicalSize {
+            width: clock_size as u32,
+            height: match show_seconds {
+                true => (clock_size / 2.8).ceil() as u32,
+                false => (clock_size / 2.3).ceil() as u32,
+            },
+        },
+    }
+}
+
 #[tauri::command]
 fn set_settings(app: tauri::AppHandle, new_settings: &str) -> String {
     let settings = Settings::from_json(new_settings);
     let serialized = settings.to_json();
     let widget_window = app.get_window("widget").unwrap();
 
-    widget_window
-        .set_size(LogicalSize {
-            width: settings.clock_size,
-            height: settings.clock_size,
-        })
-        .unwrap();
+    widget_window.set_size(get_logical_size(&settings)).unwrap();
 
     app.emit_all("settings-change", &settings).unwrap();
 
