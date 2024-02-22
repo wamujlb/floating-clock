@@ -1,8 +1,10 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod menu;
+use menu::app_menu;
 use serde::{Deserialize, Serialize};
-use tauri::{LogicalSize, Manager};
+use tauri::{LogicalSize, Manager, WindowBuilder, WindowMenuEvent, Wry};
 
 #[derive(Serialize, Deserialize)]
 enum ClockVariant {
@@ -84,9 +86,53 @@ fn set_settings(app: tauri::AppHandle, new_settings: &str) -> String {
     }
 }
 
+#[tauri::command]
+fn open_settings_window(app: tauri::AppHandle) {
+    let settings_window = app.get_window("settings");
+
+    match settings_window {
+        Some(settings_window) => {
+            settings_window.show().expect("Failed to show window.");
+        }
+        None => {
+            let settings_window =
+                WindowBuilder::new(&app, "settings", tauri::WindowUrl::App("/settings".into()))
+                    .title("Settings")
+                    .inner_size(400.0, 600.0)
+                    .resizable(false)
+                    .center()
+                    .closable(true)
+                    .minimizable(false)
+                    .always_on_top(true)
+                    .build()
+                    .expect("Failed to create window.");
+            settings_window.show().expect("Failed to show window.");
+            settings_window.set_focus().expect("Failed to focus window.");
+        }
+    }
+}
+
+fn menu_handler(event: WindowMenuEvent<Wry>) {
+    match event.menu_item_id() {
+        "quit" => {
+            std::process::exit(0);
+        }
+        "settings" => {
+            let window = event.window();
+            let app_handle = window.app_handle();
+            open_settings_window(app_handle)
+        }
+        _ => {}
+    }
+}
+
 fn main() {
+    let menu = app_menu();
+
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![set_settings])
+        .menu(menu)
+        .on_menu_event(menu_handler)
+        .invoke_handler(tauri::generate_handler![set_settings, open_settings_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
