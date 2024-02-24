@@ -71,7 +71,7 @@
 	<label class="form-control w-full">
 		<div class="label">
 			<span class="label-text">Clock size</span>
-			<span class="label-text-alt">{`${settings.clockSize}px`}</span>
+			<span class="label-text-alt">{settings.clockSize}</span>
 		</div>
 		<input
 			bind:value={settings.clockSize}
@@ -79,9 +79,9 @@
 			name="clockSize"
 			id="clockSize"
 			type="range"
-			min="30"
-			max="500"
-			step="10"
+			min="10"
+			max="300"
+			step="2"
 			class="range"
 		/>
 	</label>

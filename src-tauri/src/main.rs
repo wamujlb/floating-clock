@@ -25,7 +25,7 @@ impl Settings {
         Settings {
             show_seconds: true,
             opacity: 1.0,
-            clock_size: 400,
+            clock_size: 50,
             variant: ClockVariant::Flip,
         }
     }
@@ -44,29 +44,38 @@ impl Settings {
     }
 }
 
-fn get_flip_clock_width(clock_size: f32, show_seconds: bool) -> u32 {
-    let gap = clock_size / 10.0;
-    match show_seconds {
-        true => (clock_size * 2.5 + gap * 2.0).ceil() as u32,
-        false => (clock_size * 2.0 + gap).ceil() as u32,
+fn round_to_nearest_even(num: f32) -> u32 {
+    ((num * 0.4 / 2.0).round() * 2.0) as u32
+}
+
+fn get_flip_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<u32> {
+    let gap = round_to_nearest_even(clock_size as f32);
+    LogicalSize {
+        height: clock_size * 4 + gap * 3,
+        width: match show_seconds {
+            true => clock_size * 10 + gap * 6,
+            false => clock_size * 8 + gap * 5,
+        },
+    }
+}
+
+fn get_digital_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<u32> {
+    let gap = round_to_nearest_even(clock_size as f32);
+    LogicalSize {
+        height: clock_size * 4 + gap * 3,
+        width: match show_seconds {
+            true => clock_size * 10 + gap * 4,
+            false => clock_size * 8 + gap * 3,
+        },
     }
 }
 
 fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
-    let clock_size = settings.clock_size as f32;
+    let clock_size = settings.clock_size;
     let show_seconds = settings.show_seconds;
     match settings.variant {
-        ClockVariant::Flip => LogicalSize {
-            height: clock_size as u32,
-            width: get_flip_clock_width(clock_size, show_seconds),
-        },
-        ClockVariant::Digital => LogicalSize {
-            height: clock_size as u32,
-            width: match show_seconds {
-                true => (clock_size * 2.5).ceil() as u32,
-                false => (clock_size * 2.0).ceil() as u32,
-            },
-        },
+        ClockVariant::Flip => get_flip_logical_size(clock_size, show_seconds),
+        ClockVariant::Digital => get_digital_logical_size(clock_size, show_seconds),
     }
 }
 
@@ -107,7 +116,9 @@ fn open_settings_window(app: tauri::AppHandle) {
                     .build()
                     .expect("Failed to create window.");
             settings_window.show().expect("Failed to show window.");
-            settings_window.set_focus().expect("Failed to focus window.");
+            settings_window
+                .set_focus()
+                .expect("Failed to focus window.");
         }
     }
 }
