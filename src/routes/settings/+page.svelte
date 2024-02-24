@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { invoke } from '@tauri-apps/api/tauri';
 	import type { ChangeEventHandler } from 'svelte/elements';
-	import { initSettings } from '$lib/utils';
+	import { initSettings, getInputValue } from '$lib/utils';
+	import PomodoroSettings from '$lib/Pomodoro/PomodoroSettings.svelte';
 
 	let settings = initSettings;
 
@@ -13,31 +14,28 @@
 				opacity: settings.opacity,
 				clock_size: settings.clockSize,
 				variant: settings.variant,
+				pomodoro: {
+					show_pomodoro: settings.pomodoro.showPomodoro,
+					interval: settings.pomodoro.interval,
+					focus_time: settings.pomodoro.focusTime,
+				},
 			}),
 		});
 	};
 
 	const handleChange: ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-		let value;
-		switch (currentTarget.type) {
-			case 'checkbox':
-				value = currentTarget.checked;
-				break;
-			case 'number':
-			case 'range':
-				value = currentTarget.valueAsNumber;
-				break;
-			default:
-				value = currentTarget.value;
-				break;
-		}
-		handleSettingsChange({ ...settings, [currentTarget.name]: value });
+		handleSettingsChange({ ...settings, [currentTarget.name]: getInputValue(currentTarget) });
+	};
+
+	const handlePomodoroChange = (newValues: App.PomodoroSettings) => {
+		handleSettingsChange({ ...settings, pomodoro: newValues });
 	};
 </script>
 
-<main class="flex flex-col gap-4 mt-4 px-6">
+<main class="flex flex-col gap-2 pt-4 pb-10 px-6">
 	<h1 class="text-2xl">Settings</h1>
-	<hr class="border-slate-600" />
+	<div class="divider divider-start">Clock</div>
+
 	<label class="label cursor-pointer">
 		<span class="label-text">Show seconds</span>
 		<input
@@ -86,9 +84,7 @@
 		/>
 	</label>
 
-	<select class="select select-bordered w-full mt-4" value={settings.variant}>
-		<option disabled selected>Clock style</option>
-		<option value="Flip">Flip clock</option>
-		<option value="Digital">Digital</option>
-	</select>
+	<div class="divider divider-start">Pomodoro</div>
+
+	<PomodoroSettings values={{ ...settings.pomodoro }} onSettingsChange={handlePomodoroChange} />
 </main>

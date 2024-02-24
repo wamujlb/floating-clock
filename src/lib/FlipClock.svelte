@@ -8,7 +8,7 @@
 	export let seconds: number;
 	export let clockSize: number;
 	export let showSeconds: boolean;
-	export let showPomodoro: boolean = true;
+	export let showPomodoro: boolean;
 
 	$: gap = roundToNearestEven(clockSize);
 </script>
@@ -33,7 +33,7 @@
 		</div>
 	{/if}
 
-	{#if showSeconds}
+	{#if showPomodoro}
 		<div class="pomodoro">
 			<PomodoroFlipItem />
 		</div>

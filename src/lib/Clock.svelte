@@ -17,6 +17,11 @@
 					opacity: payload.opacity,
 					clockSize: payload.clock_size,
 					variant: payload.variant,
+					pomodoro: {
+						showPomodoro: payload.pomodoro.show_pomodoro,
+						interval: payload.pomodoro.interval,
+						focusTime: payload.pomodoro.focus_time,
+					},
 				};
 			}
 		);
@@ -48,13 +53,13 @@
 	data-tauri-drag-region
 	style:opacity={settings.opacity}
 	on:mousedown={handleContainerMousedown}
-	
 >
 	<FlipClock
 		{hours}
 		{minutes}
 		{seconds}
 		showSeconds={settings.showSeconds}
+		showPomodoro={settings.pomodoro.showPomodoro}
 		clockSize={settings.clockSize}
 	/>
 </div>

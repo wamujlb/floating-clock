@@ -9,12 +9,18 @@ declare global {
 		// interface Platform {}
 
 		type ClockVariant = 'Flip' | 'Digital';
+		type PomodoroSettings = {
+			showPomodoro: boolean;
+			focusTime: number;
+			interval: number;
+		};
 
 		interface Settings {
 			showSeconds: boolean;
 			opacity: number;
 			clockSize: number;
 			variant: ClockVariant;
+			pomodoro: PomodoroSettings;
 		}
 
 		type SettingsChangePayload = {
@@ -22,6 +28,11 @@ declare global {
 			opacity: number;
 			clock_size: number;
 			variant: ClockVariant;
+			pomodoro: {
+				show_pomodoro: boolean;
+				focus_time: number;
+				interval: number;
+			};
 		};
 	}
 }

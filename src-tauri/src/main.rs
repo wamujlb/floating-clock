@@ -13,11 +13,29 @@ enum ClockVariant {
 }
 
 #[derive(Serialize, Deserialize)]
+struct PomodoroSettings {
+    show_pomodoro: bool,
+    interval: u32,
+    focus_time: u32,
+}
+
+impl PomodoroSettings {
+    fn new() -> Self {
+        PomodoroSettings {
+            show_pomodoro: false,
+            interval: 30,
+            focus_time: 25,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
 struct Settings {
     show_seconds: bool,
     opacity: f32,
     clock_size: u32,
     variant: ClockVariant,
+    pomodoro: PomodoroSettings,
 }
 
 impl Settings {
@@ -27,6 +45,7 @@ impl Settings {
             opacity: 1.0,
             clock_size: 50,
             variant: ClockVariant::Flip,
+            pomodoro: PomodoroSettings::new(),
         }
     }
 
