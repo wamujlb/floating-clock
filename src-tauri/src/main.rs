@@ -161,6 +161,11 @@ fn main() {
 
     tauri::Builder::default()
         .menu(menu)
+        .setup(|app| {
+            open_settings_window(app.app_handle());
+
+            Ok(())
+        })
         .on_menu_event(menu_handler)
         .invoke_handler(tauri::generate_handler![set_settings, open_settings_window])
         .run(tauri::generate_context!())
