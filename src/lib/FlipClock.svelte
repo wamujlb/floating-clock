@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { roundToNearestEven } from '$lib/utils';
 	import FlipItem from './FlipItem.svelte';
-	import PomodoroFlipItem from './PomodoroFlipItem.svelte';
+	import PomodoroFlipItem from './Pomodoro/PomodoroFlipItem.svelte';
 
 	export let hours: number;
 	export let minutes: number;
 	export let seconds: number;
 	export let clockSize: number;
 	export let showSeconds: boolean;
-	export let showPomodoro: boolean;
+	export let pomodoro: App.PomodoroSettings;
 
 	$: gap = roundToNearestEven(clockSize);
 </script>
@@ -33,9 +33,9 @@
 		</div>
 	{/if}
 
-	{#if showPomodoro}
+	{#if pomodoro.showPomodoro}
 		<div class="pomodoro">
-			<PomodoroFlipItem />
+			<PomodoroFlipItem interval={pomodoro.interval} focusTime={pomodoro.focusTime} />
 		</div>
 	{/if}
 </div>

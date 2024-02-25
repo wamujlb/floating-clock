@@ -59,7 +59,7 @@
 		{minutes}
 		{seconds}
 		showSeconds={settings.showSeconds}
-		showPomodoro={settings.pomodoro.showPomodoro}
+		pomodoro={settings.pomodoro}
 		clockSize={settings.clockSize}
 	/>
 </div>
