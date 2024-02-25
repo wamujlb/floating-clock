@@ -24,7 +24,7 @@ struct PomodoroSettings {
 impl PomodoroSettings {
     fn new() -> Self {
         PomodoroSettings {
-            show_pomodoro: false,
+            show_pomodoro: true,
             interval: 30,
             focus_time: 25,
         }

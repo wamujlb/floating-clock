@@ -4,7 +4,7 @@ export const initSettings: App.Settings = {
 	clockSize: 50,
 	variant: 'Flip',
 	pomodoro: {
-		showPomodoro: false,
+		showPomodoro: true,
 		focusTime: 25,
 		interval: 30,
 	},
