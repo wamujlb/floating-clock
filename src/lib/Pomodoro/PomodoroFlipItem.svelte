@@ -91,7 +91,7 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
-		background-color: #1f1f1f;
+		background-color: oklch(var(--b3));
 		justify-content: center;
 		align-items: center;
 		border-radius: 15%;

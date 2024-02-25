@@ -91,7 +91,7 @@
 		backface-visibility: hidden;
 		container-type: size;
 		overflow: hidden;
-		background-color: #1f1f1f;
+		background-color: oklch(var(--b3));
 		color: white;
 	}
 

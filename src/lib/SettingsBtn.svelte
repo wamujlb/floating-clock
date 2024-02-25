@@ -3,8 +3,6 @@
 	import { Settings2 } from 'lucide-svelte';
 	import { invoke } from '@tauri-apps/api/tauri';
 
-	let settingsWindow: WebviewWindow | null = null;
-
 	const handleShowSetings = async () => {
 		await invoke('open_settings_window');
 	};
