@@ -7,12 +7,11 @@ pub fn app_menu() -> Menu {
         "Floating Clock",
         Menu::new()
             .add_item(settings_menu_item)
+            .add_native_item(MenuItem::Separator)
             .add_item(quit_menu_item),
     );
-    let menu = Menu::new()
+    Menu::new()
         .add_native_item(MenuItem::Copy)
         .add_item(CustomMenuItem::new("hide", "Hide"))
-        .add_submenu(submenu);
-
-    menu
+        .add_submenu(submenu)
 }

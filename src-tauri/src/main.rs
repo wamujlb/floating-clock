@@ -2,9 +2,11 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod menu;
+mod system_tray;
 use menu::app_menu;
+use system_tray::app_system_tray;
 use serde::{Deserialize, Serialize};
-use tauri::{LogicalSize, Manager, WindowBuilder, WindowMenuEvent, Wry};
+use tauri::{LogicalSize, Manager, SystemTrayEvent, WindowBuilder, WindowMenuEvent, Wry};
 
 #[derive(Serialize, Deserialize)]
 enum ClockVariant {
@@ -156,16 +158,36 @@ fn menu_handler(event: WindowMenuEvent<Wry>) {
     }
 }
 
+fn system_tray_event_handler(app_handle: &tauri::AppHandle, event: SystemTrayEvent) {
+    match event {
+        SystemTrayEvent::MenuItemClick { id, .. } => {
+            match id.as_str() {
+                "quit" => {
+                    std::process::exit(0);
+                }
+                "settings" => {
+                    open_settings_window(app_handle.clone())
+                }
+                _ => {}
+            }
+        }
+        _ => {}
+    }
+}
+
 fn main() {
     let menu = app_menu();
+    let system_tray = app_system_tray();
 
     tauri::Builder::default()
-        .menu(menu)
         .setup(|app| {
             open_settings_window(app.app_handle());
 
             Ok(())
         })
+        .system_tray(system_tray)
+        .on_system_tray_event(system_tray_event_handler)
+        .menu(menu)
         .on_menu_event(menu_handler)
         .invoke_handler(tauri::generate_handler![set_settings, open_settings_window])
         .run(tauri::generate_context!())
