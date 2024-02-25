@@ -78,11 +78,11 @@ fn get_flip_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<u32
     }
 }
 
-fn get_digital_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<u32> {
+fn get_digital_logical_size(clock_size: u32, show_third_col: bool) -> LogicalSize<u32> {
     let gap = round_to_nearest_even(clock_size as f32);
     LogicalSize {
         height: clock_size * 4 + gap * 3,
-        width: match show_seconds {
+        width: match show_third_col {
             true => clock_size * 10 + gap * 4,
             false => clock_size * 8 + gap * 3,
         },
@@ -91,10 +91,10 @@ fn get_digital_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<
 
 fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
     let clock_size = settings.clock_size;
-    let show_seconds = settings.show_seconds;
+    let show_third_col = settings.show_seconds || settings.pomodoro.show_pomodoro;
     match settings.variant {
-        ClockVariant::Flip => get_flip_logical_size(clock_size, show_seconds),
-        ClockVariant::Digital => get_digital_logical_size(clock_size, show_seconds),
+        ClockVariant::Flip => get_flip_logical_size(clock_size, show_third_col),
+        ClockVariant::Digital => get_digital_logical_size(clock_size, show_third_col),
     }
 }
 

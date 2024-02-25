@@ -18,6 +18,7 @@
 	style:gap="{gap}px"
 	style:padding="{gap}px"
 	class:show-seconds={showSeconds}
+	class:show-third-col={showSeconds || pomodoro.showPomodoro}
 >
 	<div class="hours">
 		<FlipItem value={hours} maxValue={23} delay={59 * 60 * 1000} />
@@ -47,7 +48,7 @@
 		grid-template-columns: 2fr 2fr;
 		grid-template-rows: 1fr 1fr;
 
-		&.show-seconds {
+		&.show-third-col {
 			grid-template-columns: repeat(5, 1fr);
 
 			.hours {
@@ -58,6 +59,13 @@
 			.minutes {
 				grid-column-start: 3;
 				grid-column-end: 5;
+			}
+		}
+
+		&.show-seconds {
+			.pomodoro {
+				grid-row-start: 1;
+				grid-row-end: 2;
 			}
 		}
 	}
@@ -74,7 +82,7 @@
 	}
 
 	.pomodoro {
-		grid-row-start: 1;
-		grid-row-end: 2;
+		grid-row-start: 2;
+		grid-row-end: 3;
 	}
 </style>
