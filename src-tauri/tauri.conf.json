@@ -8,12 +8,20 @@
   },
   "package": {
     "productName": "floating-clock",
-    "version": "0.1.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "macOSPrivateApi": true,
     "allowlist": {
       "window": {
+        "all": true
+      },
+      "fs": {
+        "all": false,
+        "writeFile": true,
+        "scope": ["$APP", "$DOWNLOADS"]
+      },
+      "path": {
         "all": true
       }
     },
@@ -23,8 +31,8 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+      "category": "Productivity",
+      "copyright": "© 2024 Wamujlb",
       "deb": {
         "depends": []
       },
@@ -37,13 +45,14 @@
         "icons/icon.ico"
       ],
       "identifier": "floating-clock",
-      "longDescription": "",
+      "longDescription": "Floating clock with Pomodoro",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
         "frameworks": [],
         "providerShortName": null,
-        "signingIdentity": null
+        "signingIdentity": null,
+        "license": "GNU General Public License (GPL)"
       },
       "resources": [],
       "shortDescription": "",
