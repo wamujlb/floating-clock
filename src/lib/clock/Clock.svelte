@@ -2,8 +2,8 @@
 	import { window as tauriWindow } from '@tauri-apps/api';
 	import { listen } from '@tauri-apps/api/event';
 	import { onDestroy, onMount } from 'svelte';
-	import FlipClock from './FlipClock.svelte';
-	import { deserializeSettings, type SettingsPayload } from './settings/utils';
+	import FlipClock from '$lib/flip-clock/FlipClock.svelte';
+	import { deserializeSettings, type SettingsPayload } from '$lib/settings/utils';
 
 	export let settings: App.Settings;
 

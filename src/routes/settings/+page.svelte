@@ -4,7 +4,7 @@
 	import { getInputValue } from '$lib/utils';
 	import { appStore } from '$lib/settings/store';
 	import { serializeSettings, type SettingsPayload } from '$lib/settings/utils';
-	import PomodoroSettings from '$lib/Pomodoro/PomodoroSettings.svelte';
+	import PomodoroSettings from '$lib/pomodoro/PomodoroSettings.svelte';
 
 	export let data: { data: App.Settings };
 

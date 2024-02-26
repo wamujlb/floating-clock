@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Clock from '$lib/Clock.svelte';
+	import Clock from '$lib/clock/Clock.svelte';
 
 	export let data: { data: App.Settings };
 </script>

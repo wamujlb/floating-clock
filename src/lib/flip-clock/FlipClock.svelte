@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { roundToNearestEven } from '$lib/utils';
 	import FlipItem from './FlipItem.svelte';
-	import PomodoroFlipItem from './Pomodoro/PomodoroFlipItem.svelte';
+	import PomodoroFlipItem from '$lib/pomodoro/PomodoroFlipItem.svelte';
 
 	export let hours: number;
 	export let minutes: number;
