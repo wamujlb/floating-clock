@@ -22,19 +22,9 @@ declare global {
 			variant: ClockVariant;
 			pomodoro: PomodoroSettings;
 		}
-
-		type SettingsChangePayload = {
-			show_seconds: boolean;
-			opacity: number;
-			clock_size: number;
-			variant: ClockVariant;
-			pomodoro: {
-				show_pomodoro: boolean;
-				focus_time: number;
-				interval: number;
-			};
-		};
 	}
+
+	type Maybe<T> = T | undefined;
 }
 
 export {};

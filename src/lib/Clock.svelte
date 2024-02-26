@@ -2,32 +2,21 @@
 	import { window as tauriWindow } from '@tauri-apps/api';
 	import { listen } from '@tauri-apps/api/event';
 	import { onDestroy, onMount } from 'svelte';
-	import { initSettings } from '$lib/utils';
 	import FlipClock from './FlipClock.svelte';
+	import { deserializeSettings, type SettingsPayload } from './settings/utils';
+
+	export let settings: App.Settings;
 
 	let settingsChangeListener: () => void;
-	let settings = initSettings;
 
 	onMount(async () => {
-		settingsChangeListener = await listen<App.SettingsChangePayload>(
-			'settings-change',
-			({ payload }) => {
-				settings = {
-					showSeconds: payload.show_seconds,
-					opacity: payload.opacity,
-					clockSize: payload.clock_size,
-					variant: payload.variant,
-					pomodoro: {
-						showPomodoro: payload.pomodoro.show_pomodoro,
-						interval: payload.pomodoro.interval,
-						focusTime: payload.pomodoro.focus_time,
-					},
-				};
-			}
+		settingsChangeListener = await listen<SettingsPayload>('settings-change', ({ payload }) =>
+			deserializeSettings(payload)
 		);
 	});
 
 	onDestroy(() => {
+		// Destroy the listener when the component is destroyed
 		settingsChangeListener();
 	});
 

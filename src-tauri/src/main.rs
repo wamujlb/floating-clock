@@ -190,6 +190,7 @@ fn main() {
         .menu(menu)
         .on_menu_event(menu_handler)
         .invoke_handler(tauri::generate_handler![set_settings, open_settings_window])
+        .plugin(tauri_plugin_store::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

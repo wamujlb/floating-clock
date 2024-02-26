@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Clock from '$lib/Clock.svelte';
+
+	export let data: { data: App.Settings };
 </script>
 
 <main>
-	<Clock />
+	<Clock settings={data.data} />
 </main>
 
 <style>
