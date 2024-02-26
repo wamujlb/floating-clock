@@ -4,14 +4,17 @@
 	import { onDestroy, onMount } from 'svelte';
 	import FlipClock from '$lib/flip-clock/FlipClock.svelte';
 	import { deserializeSettings, type SettingsPayload } from '$lib/settings/utils';
+	import { writable } from 'svelte/store';
 
-	export let settings: App.Settings;
+	export let data: App.Settings;
+
+	let settings = writable<App.Settings>(data);
 
 	let settingsChangeListener: () => void;
 
 	onMount(async () => {
 		settingsChangeListener = await listen<SettingsPayload>('settings-change', ({ payload }) =>
-			deserializeSettings(payload)
+			settings.set(deserializeSettings(payload))
 		);
 	});
 
@@ -40,15 +43,15 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	data-tauri-drag-region
-	style:opacity={settings.opacity}
+	style:opacity={$settings.opacity}
 	on:mousedown={handleContainerMousedown}
 >
 	<FlipClock
 		{hours}
 		{minutes}
 		{seconds}
-		showSeconds={settings.showSeconds}
-		pomodoro={settings.pomodoro}
-		clockSize={settings.clockSize}
+		showSeconds={$settings.showSeconds}
+		pomodoro={$settings.pomodoro}
+		clockSize={$settings.clockSize}
 	/>
 </div>

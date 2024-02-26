@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+export const DEFAULT_SETTINGS: App.Settings = {
+	showSeconds: true,
+	opacity: 1,
+	clockSize: 50,
+	variant: 'Flip',
+	pomodoro: {
+		showPomodoro: true,
+		focusTime: 25,
+		interval: 30,
+	},
+};
+
 export const serializeSettings = (settings: App.Settings): SettingsPayload => ({
 	show_seconds: settings.showSeconds,
 	opacity: settings.opacity,

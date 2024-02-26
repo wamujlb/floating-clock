@@ -5,7 +5,7 @@
 </script>
 
 <main>
-	<Clock settings={data.data} />
+	<Clock data={data.data} />
 </main>
 
 <style>
