@@ -15,15 +15,25 @@ Whether you're managing your time during work sessions, study sessions, or any o
 
 Get started with the repository to explore the codebase, contribute improvements, or customize the application to suit your needs. Thank you for choosing Floating Clock for your timekeeping and productivity needs!
 
-#### Scripts
+#### Prerequisites:
+
+**Node Package Manager npm/pnpm/yarn**: Ensure you have npm, pnpm, or Yarn installed to manage dependencies.
+**Rust**: Make sure you have Rust installed for building the application.
+
+### Scripts
+
+**Installing**
+```bash
+pnpm install
+```
 
 **Developing**
 ```bash
-npm run tauri dev
+pnpm run tauri dev
 ```
 
 **Build**
 ```bash
-npm run tauri build
+pnpm run tauri build
 ```
 
