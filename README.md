@@ -17,8 +17,8 @@ Get started with the repository to explore the codebase, contribute improvements
 
 #### Prerequisites:
 
-**Node Package Manager npm/pnpm/yarn**: Ensure you have npm, pnpm, or Yarn installed to manage dependencies.
-**Rust**: Make sure you have Rust installed for building the application.
+- **Node Package Manager npm/pnpm/yarn**: Ensure you have npm, pnpm, or Yarn installed to manage dependencies.
+- **Rust**: Make sure you have Rust installed for building the application.
 
 ### Scripts
 
