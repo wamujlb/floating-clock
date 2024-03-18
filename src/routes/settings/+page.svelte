@@ -26,6 +26,13 @@
 		}));
 	};
 
+	const handleVariantSelect: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
+		settings.update((settings) => ({
+			...settings,
+			[currentTarget.name]: currentTarget.value as App.ClockVariant,
+		}));
+	};
+
 	const handlePomodoroChange = (newValues: App.PomodoroSettings) => {
 		settings.update((settings) => ({ ...settings, pomodoro: newValues }));
 	};
@@ -39,6 +46,21 @@
 	<main class="flex flex-col gap-2 pt-4 pb-10 px-6">
 		<h1 class="text-2xl">Settings</h1>
 		<div class="divider divider-start">Clock</div>
+
+		<label class="form-control w-full">
+			<div class="label">
+				<span class="label-text">Clock type</span>
+			</div>
+			<select
+				name="variant"
+				bind:value={$settings.variant}
+				on:select={handleVariantSelect}
+				class="select select-bordered"
+			>
+				<option value="Flip">Flip clock</option>
+				<option value="BinaryAnalog">Binary analog clock</option>
+			</select>
+		</label>
 
 		<label class="label cursor-pointer">
 			<span class="label-text">Show seconds</span>

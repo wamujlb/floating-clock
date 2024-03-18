@@ -12,6 +12,7 @@ use tauri::{LogicalSize, Manager, SystemTrayEvent, WindowBuilder, WindowMenuEven
 enum ClockVariant {
     Flip,
     Digital,
+    BinaryAnalog,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -91,12 +92,25 @@ fn get_digital_logical_size(clock_size: u32, show_third_col: bool) -> LogicalSiz
     }
 }
 
+fn get_analog_logical_size(clock_size: u32, show_pomodoro: bool) -> LogicalSize<u32> {
+    let gap = round_to_nearest_even(clock_size as f32);
+    LogicalSize {
+        height: clock_size * 4 + gap * 2,
+        width: match show_pomodoro {
+            true => clock_size * 8 + gap * 3,
+            false => clock_size * 4 + gap * 2,
+        },
+    }
+}
+
 fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
     let clock_size = settings.clock_size;
-    let show_third_col = settings.show_seconds || settings.pomodoro.show_pomodoro;
+    let show_pomodoro = settings.pomodoro.show_pomodoro;
+    let show_third_col = settings.show_seconds || show_pomodoro;
     match settings.variant {
         ClockVariant::Flip => get_flip_logical_size(clock_size, show_third_col),
         ClockVariant::Digital => get_digital_logical_size(clock_size, show_third_col),
+        ClockVariant::BinaryAnalog => get_analog_logical_size(clock_size, show_pomodoro),
     }
 }
 
@@ -128,7 +142,7 @@ fn open_settings_window(app: tauri::AppHandle) {
             let settings_window =
                 WindowBuilder::new(&app, "settings", tauri::WindowUrl::App("/settings".into()))
                     .title("Settings")
-                    .inner_size(400.0, 600.0)
+                    .inner_size(400.0, 700.0)
                     .resizable(false)
                     .center()
                     .closable(true)

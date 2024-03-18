@@ -8,7 +8,7 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 
-		type ClockVariant = 'Flip' | 'Digital';
+		type ClockVariant = 'Flip' | 'Digital' | 'BinaryAnalog';
 		type PomodoroSettings = {
 			showPomodoro: boolean;
 			focusTime: number;

@@ -94,7 +94,7 @@
 		background-color: oklch(var(--b3));
 		justify-content: center;
 		align-items: center;
-		border-radius: 15%;
+		border-radius: 16%;
 		overflow: hidden;
 		position: relative;
 

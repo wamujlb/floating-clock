@@ -5,6 +5,7 @@
 	import FlipClock from '$lib/flip-clock/FlipClock.svelte';
 	import { deserializeSettings, type SettingsPayload } from '$lib/settings/utils';
 	import { writable } from 'svelte/store';
+	import BinaryAnalogClock from '$lib/binary-analog-clock/binary-analog-clock.svelte';
 
 	export let data: App.Settings;
 
@@ -38,6 +39,8 @@
 		minutes = date.getMinutes();
 		seconds = date.getSeconds();
 	}, 1000);
+
+	$: clockVariant = $settings.variant;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -46,12 +49,25 @@
 	style:opacity={$settings.opacity}
 	on:mousedown={handleContainerMousedown}
 >
-	<FlipClock
-		{hours}
-		{minutes}
-		{seconds}
-		showSeconds={$settings.showSeconds}
-		pomodoro={$settings.pomodoro}
-		clockSize={$settings.clockSize}
-	/>
+	{#if clockVariant === 'Flip'}
+		<FlipClock
+			{hours}
+			{minutes}
+			{seconds}
+			showSeconds={$settings.showSeconds}
+			pomodoro={$settings.pomodoro}
+			clockSize={$settings.clockSize}
+		/>
+	{/if}
+
+	{#if clockVariant === 'BinaryAnalog'}
+		<BinaryAnalogClock
+			{hours}
+			{minutes}
+			{seconds}
+			showSeconds={$settings.showSeconds}
+			pomodoro={$settings.pomodoro}
+			clockSize={$settings.clockSize}
+		/>
+	{/if}
 </div>
