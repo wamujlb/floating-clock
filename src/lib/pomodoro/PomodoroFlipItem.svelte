@@ -12,7 +12,7 @@
 	$: focusDuration = focusTime * 60; // in seconds
 	$: breakDuration = intervalDuration - focusDuration; // in seconds
 
-	let startedInterval: NodeJS.Timeout;
+	let startedInterval: number;
 	const timerState = writable<TimerState>({
 		started: false,
 		tick: intervalDuration,

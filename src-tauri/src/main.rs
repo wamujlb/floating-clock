@@ -70,24 +70,36 @@ fn round_to_nearest_even(num: f32) -> u32 {
     ((num * 0.4 / 2.0).round() * 2.0) as u32
 }
 
-fn get_flip_logical_size(clock_size: u32, show_seconds: bool) -> LogicalSize<u32> {
+fn get_flip_logical_size(clock_size: u32, show_pomodoro: bool, show_seconds: bool) -> LogicalSize<u32> {
     let gap = round_to_nearest_even(clock_size as f32);
     LogicalSize {
         height: clock_size * 4 + gap * 3,
         width: match show_seconds {
-            true => clock_size * 10 + gap * 6,
-            false => clock_size * 8 + gap * 5,
+            true => match show_pomodoro {
+                true => clock_size * 14 + gap * 8,
+                false => clock_size * 10 + gap * 6,
+            },
+            false => match show_pomodoro {
+                true => clock_size * 12 + gap * 7,
+                false => clock_size * 8 + gap * 5,
+            },
         },
     }
 }
 
-fn get_digital_logical_size(clock_size: u32, show_third_col: bool) -> LogicalSize<u32> {
+fn get_digital_logical_size(clock_size: u32, show_pomodoro: bool, show_seconds: bool) -> LogicalSize<u32> {
     let gap = round_to_nearest_even(clock_size as f32);
     LogicalSize {
         height: clock_size * 4 + gap * 3,
-        width: match show_third_col {
-            true => clock_size * 10 + gap * 4,
-            false => clock_size * 8 + gap * 3,
+        width: match show_seconds {
+            true => match show_pomodoro {
+                true => clock_size * 14 + gap * 5,
+                false => clock_size * 10 + gap * 4,
+            },
+            false => match show_pomodoro {
+                true => clock_size * 12 + gap * 4,
+                false => clock_size * 8 + gap * 3,
+            },
         },
     }
 }
@@ -106,10 +118,9 @@ fn get_analog_logical_size(clock_size: u32, show_pomodoro: bool) -> LogicalSize<
 fn get_logical_size(settings: &Settings) -> LogicalSize<u32> {
     let clock_size = settings.clock_size;
     let show_pomodoro = settings.pomodoro.show_pomodoro;
-    let show_third_col = settings.show_seconds || show_pomodoro;
     match settings.variant {
-        ClockVariant::Flip => get_flip_logical_size(clock_size, show_third_col),
-        ClockVariant::Digital => get_digital_logical_size(clock_size, show_third_col),
+        ClockVariant::Flip => get_flip_logical_size(clock_size, show_pomodoro, settings.show_seconds),
+        ClockVariant::Digital => get_digital_logical_size(clock_size, show_pomodoro, settings.show_seconds),
         ClockVariant::BinaryAnalog => get_analog_logical_size(clock_size, show_pomodoro),
     }
 }

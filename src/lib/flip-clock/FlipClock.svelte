@@ -18,8 +18,14 @@
 	style:gap="{gap}px"
 	style:padding="{gap}px"
 	class:show-seconds={showSeconds}
-	class:show-third-col={showSeconds || pomodoro.showPomodoro}
+	class:show-pomodoro={pomodoro.showPomodoro}
 >
+	{#if pomodoro.showPomodoro}
+		<div class="pomodoro">
+			<PomodoroFlipItem interval={pomodoro.interval} focusTime={pomodoro.focusTime} />
+		</div>
+	{/if}
+
 	<div class="hours">
 		<FlipItem value={hours} maxValue={23} delay={59 * 60 * 1000} />
 	</div>
@@ -33,56 +39,61 @@
 			<FlipItem value={seconds} maxValue={59} />
 		</div>
 	{/if}
-
-	{#if pomodoro.showPomodoro}
-		<div class="pomodoro">
-			<PomodoroFlipItem interval={pomodoro.interval} focusTime={pomodoro.focusTime} />
-		</div>
-	{/if}
 </div>
 
 <style>
 	.flip-clock {
 		display: grid;
 		height: 100vh;
-		grid-template-columns: 2fr 2fr;
+		grid-template-columns: repeat(4, 1fr);
 		grid-template-rows: 1fr 1fr;
 
-		&.show-third-col {
-			grid-template-columns: repeat(5, 1fr);
+		&:not(.show-pomodoro) {
+			&.show-seconds {
+				grid-template-columns: repeat(5, 1fr);
+			}
 
 			.hours {
-				grid-column-start: 1;
-				grid-column-end: 3;
+				grid-column: 1 / 3;
 			}
 
 			.minutes {
-				grid-column-start: 3;
-				grid-column-end: 5;
+				grid-column: 3 / 5;
 			}
 		}
 
-		&.show-seconds {
+		&.show-pomodoro {
+			grid-template-columns: repeat(6, 1fr);
+
+			&.show-seconds {
+				grid-template-columns: repeat(7, 1fr);
+			}
+
+			.hours {
+				grid-column: 3 / 5;
+			}
+
+			.minutes {
+				grid-column: 5 / 7;
+			}
+
 			.pomodoro {
-				grid-row-start: 1;
-				grid-row-end: 2;
+				grid-column: 1 / 3;
 			}
 		}
 	}
 
 	.hours,
-	.minutes {
-		grid-row-start: 1;
-		grid-row-end: 3;
-	}
-
-	.seconds {
-		grid-row-start: 2;
-		grid-row-end: 3;
+	.minutes,
+	.pomodoro {
+		grid-row: 1 / 3;
 	}
 
 	.pomodoro {
-		grid-row-start: 2;
-		grid-row-end: 3;
+		grid-column: 1 / 3;
+	}
+
+	.seconds {
+		grid-row: 2 / 3;
 	}
 </style>
