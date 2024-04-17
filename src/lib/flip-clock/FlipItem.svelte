@@ -26,15 +26,15 @@
 </script>
 
 <div class="container">
-	<div class="card card-next">
-		<div class="card-inner">
-			<div class="card-front">
-				<div class="card-digit">{nextValue}</div>
+	{#key formattedValue}
+		<div class="card card-next">
+			<div class="card-inner">
+				<div class="card-front">
+					<div class="card-digit">{nextValue}</div>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	{#key formattedValue}
 		<div class="card card-top">
 			<div class="card-inner" in:flip>
 				<div class="card-front">
@@ -45,15 +45,15 @@
 				</div>
 			</div>
 		</div>
-	{/key}
 
-	<div class="card card-bottom">
-		<div class="card-inner">
-			<div class="card-front">
-				<div class="card-digit">{formattedValue}</div>
+		<div class="card card-bottom">
+			<div class="card-inner">
+				<div class="card-front">
+					<div class="card-digit">{formattedValue}</div>
+				</div>
 			</div>
 		</div>
-	</div>
+	{/key}
 </div>
 
 <style>

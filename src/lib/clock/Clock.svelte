@@ -9,8 +9,24 @@
 
 	export let data: App.Settings;
 
-	let settings = writable<App.Settings>(data);
+	type Time = {
+		hours: number;
+		minutes: number;
+		seconds: number;
+	};
 
+	const getTime = (): Time => {
+		const date = new Date();
+		return {
+			hours: date.getHours(),
+			minutes: date.getMinutes(),
+			seconds: date.getSeconds(),
+		};
+	};
+
+	const time = writable<Time>(getTime());
+	const settings = writable<App.Settings>(data);
+	let intervalListener: number;
 	let settingsChangeListener: () => void;
 
 	onMount(async () => {
@@ -22,25 +38,27 @@
 	onDestroy(() => {
 		// Destroy the listener when the component is destroyed
 		settingsChangeListener();
+		clearInterval(intervalListener);
+	});
+
+	settings.subscribe(({ showSeconds }) => {
+		const intervalTime = showSeconds ? 1000 : 60000;
+		clearInterval(intervalListener);
+		time.set(getTime());
+
+		intervalListener = setInterval(() => {
+			time.set(getTime());
+		}, intervalTime);
 	});
 
 	const handleContainerMousedown = async (e: MouseEvent) => {
 		await tauriWindow.appWindow.startDragging();
 	};
 
-	const date = new Date();
-	let hours = date.getHours();
-	let minutes = date.getMinutes();
-	let seconds = date.getSeconds();
-
-	setInterval(() => {
-		const date = new Date();
-		hours = date.getHours();
-		minutes = date.getMinutes();
-		seconds = date.getSeconds();
-	}, 1000);
-
 	$: clockVariant = $settings.variant;
+	$: hours = $time.hours;
+	$: minutes = $time.minutes;
+	$: seconds = $time.seconds;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
