@@ -40,7 +40,7 @@ const settingsPayloadSchema = z.object({
 	show_seconds: z.boolean(),
 	opacity: z.number(),
 	clock_size: z.number(),
-	variant: z.union([z.literal('Flip'), z.literal('Digital')]),
+	variant: z.union([z.literal('Flip'), z.literal('Digital'), z.literal('BinaryAnalog')]),
 	pomodoro: z.object({
 		show_pomodoro: z.boolean(),
 		focus_time: z.number(),
